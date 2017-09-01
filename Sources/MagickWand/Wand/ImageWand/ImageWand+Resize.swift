@@ -33,6 +33,46 @@ extension ImageWand {
     // TODO: Resize modes. like AspectFill, AspectFit.
     // TODO: resized, rescaled -> ImageWand
     
+    public func scale(toWidth width: Double) {
+        self.scale(toWidth: Int(width))
+    }
+    
+    public func scale(toWidth width: Int) {
+        let ratio = Double(self.size.width) / Double(self.size.height)
+        guard Int(Double(self.size.height)/ratio) > 0 else { return }
+        self.scale(width: width, height: Int(Double(width)/ratio))
+    }
+    
+    public func scale(toHeight height: Double) {
+        self.scale(toHeight: Int(height))
+    }
+    
+    public func scale(toHeight height: Int) {
+        let ratio = Double(self.size.width) / Double(self.size.height)
+        guard Int(Double(self.size.width)/ratio) > 0 else { return }
+        self.scale(width: Int(Double(height)*ratio), height: height)
+    }
+    
+    public func resize(toWidth width: Double, withFilter filter: MagickWand.Filter) {
+        self.resize(toWidth: Int(width), withFilter: filter)
+    }
+    
+    public func resize(toWidth width: Int, withFilter filter: MagickWand.Filter) {
+        let ratio = Double(self.size.width) / Double(self.size.height)
+        guard Int(Double(self.size.height)/ratio) > 0 else { return }
+        self.resize(width: width, height: Int(Double(width)/ratio), filter: filter)
+    }
+    
+    public func resize(toHeight height: Double, withFilter filter: MagickWand.Filter) {
+        self.resize(toHeight: Int(height), withFilter: filter)
+    }
+    
+    public func resize(toHeight height: Int, withFilter filter: MagickWand.Filter) {
+        let ratio = Double(self.size.width) / Double(self.size.height)
+        guard Int(Double(self.size.width)/ratio) > 0 else { return }
+        self.resize(width: Int(Double(height)*ratio), height: height, filter: filter)
+    }
+    
     public func resize(width: Double, height: Double, filter: MagickWand.Filter, blur: Double = 1.0) {
         self.resize(width: Int(width), height: Int(width), filter: filter, blur: blur)
     }
